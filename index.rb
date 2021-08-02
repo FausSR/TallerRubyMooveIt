@@ -4,5 +4,5 @@ require_relative './config/environmental_variables'
 env = EnvironmentalVariables.new
 env.define_variables
 
-socket = SocketServer.new
+socket = SocketServer.new($ENV["HOSTNAME"], $ENV["PORT"])
 socket.start_server
