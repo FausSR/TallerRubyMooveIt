@@ -11,8 +11,8 @@ class SocketServer
         server = TCPServer.open(@socket_address, @socket_port)
         loop {                           
             Thread.start(server.accept) do |client|
-                connection = ConnectionLogic.new
-                connection.start_connection(client)    
+                connection = ConnectionLogic.new(client)
+                connection.start_connection  
             end
         }
     end
