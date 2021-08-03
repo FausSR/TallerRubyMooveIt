@@ -9,7 +9,13 @@ class SocketClient
     def start_client
         s = TCPSocket.open(@socket_address, @socket_port)
 
-        while !(line = gets).eql?("END")
+        Thread.start do
+            while line = s.gets 
+                puts line.chop  
+            end
+        end
+
+        while !(line = gets).eql?("EXIT")
             s.print(line)     
         end
 
