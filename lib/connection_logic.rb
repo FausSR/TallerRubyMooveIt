@@ -10,10 +10,12 @@ require_relative './commands/command_cas'
 require_relative './commands/command_append'
 require_relative './commands/command_prepend'
 
+
+
 class ConnectionLogic
 
     def initialize(client)
-        
+
         @client = client
         @timeout = $ENV["TIMEOUT"]
     end
@@ -35,7 +37,7 @@ class ConnectionLogic
 
     def read_line(line)
         command = line.split(" ")
-        class_name = "Command#{command.shift.capitalize}"
+        class_name = "Command#{command.first.capitalize}"
         Object.const_get(class_name).new(command, @client)
     #rescue NameError => e
     #    @client.puts('ERROR\r\n')

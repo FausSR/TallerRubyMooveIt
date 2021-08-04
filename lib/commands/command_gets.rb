@@ -1,16 +1,22 @@
 require 'socket'
 require_relative '../custom_hash'
+require_relative './command'
 
-class CommandGets
+class CommandGets < Command
 
    def initialize(command, client)
 
-        read_command(command, client)
+        if !retrieval_commands_lenght(command)
+            client.puts("CLIENT_ERROR\r\n")
+        else
+            read_command(command, client)
+        end
         
     end
  
     def read_command(command, client)
 
+        command.drop(1)
         command.each { |key|
             create_get_response(key, client)
         }
