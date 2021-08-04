@@ -9,6 +9,7 @@ require_relative './commands/command_replace'
 require_relative './commands/command_cas'
 require_relative './commands/command_append'
 require_relative './commands/command_prepend'
+require_relative './exceptions/server_exception'
 
 
 
@@ -32,6 +33,10 @@ class ConnectionLogic
     rescue Timeout::Error
         puts "Connection closed at #{Time.now.ctime}"
         @client.close
+    rescue ServerException => error
+        puts error.message
+        puts "Connection closed at #{Time.now.ctime}"
+        @client.close
 
     end
 
@@ -39,28 +44,5 @@ class ConnectionLogic
         command = line.split(" ")
         class_name = "Command#{command.first.capitalize}"
         Object.const_get(class_name).new(command, @client)
-    #rescue NameError => e
-    #    @client.puts('ERROR\r\n')
-
-    end
-
-    def add_command(command)
-
-    end
-
-    def replace_command(command)
-
-    end
-
-    def append_command(command)
-
-    end
-
-    def prepend_command(command)
-
-    end 
-
-    def cas_command(command)
-
     end
 end

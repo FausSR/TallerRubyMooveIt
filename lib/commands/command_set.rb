@@ -5,31 +5,30 @@ require_relative './command'
 class CommandSet < Command
 
     def initialize(command, client)
+        @command = command
+        @client = client
 
-        if !storage_commands_lenght(command)
-            client.puts("CLIENT_ERROR\r\n")
-        else
-            read_command(command, client)
-        end
-
+        storage_commands_lenght()
+        
     end
 
-    def read_command(command, client)
+    def read_command
 
-        key = command[1]
-        flags = command[2]
-        expire = command[3]
-        bytes = command[4].to_i
-        value = client.gets.chop[0..(bytes -1)]
+        key = @command[1]
+        flags = @command[2]
+        expire = @command[7]
+        puts expire
+        bytes = @command[4].to_i
+        value = @client.gets.chop[0..(bytes -1)]
         $store.set(key, value, expire, flags, bytes)
         puts $store.get("algo")
 
-        number_of_max_values = 6
+        response = "STORED\r\n"
 
-        if(command.length != number_of_max_values) && (!command[5].eql?("noreply"))
-            client.puts("STORED #{'\r\n'}")
-        end
+        noreply(response)
 
+    rescue Exception => error
+        server_error(error.class)
     end
 
 end

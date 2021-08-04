@@ -1,29 +1,27 @@
 require 'socket'
 require_relative '../custom_hash'
-require_relative './command'
+require_relative './Command'
 
 class CommandGet < Command
 
     def initialize(command, client)
+        @command = command
+        @client = client
 
-        if !retrieval_commands_lenght(command)
-            client.puts("CLIENT_ERROR\r\n")
-        else
-            read_command(command, client)
-        end
+        retrieval_commands_lenght()
 
     end
  
-    def read_command(command, client)
+    def read_command
 
-        command.drop(1)
-        command.each { |key|
-            create_get_response(key, client)
+        @command.drop(1)
+        @command.each { |key|
+            create_get_response(key)
         }
-        client.puts("END\r\n")
+        @client.puts("END\r\n")
     end
 
-    def create_get_response(key, client)
+    def create_get_response(key)
         hash_value = $store.get(key)
 
         if !hash_value.nil?
@@ -38,15 +36,18 @@ class CommandGet < Command
 
             response = "VALUES #{ret.join(" ")}\r\n"
 
-            client.puts(response)
-            client.puts(value)
+            @client.puts(response)
+            @client.puts(value)
         end
+
+    rescue Exception => error
+        server_error(error.class)
     end
 
 end
 
-#   def initialize(command, client)
+#   def initialize(@command, @client)
 #
-#        read_command(command, client)
+#        read_@command(@command, @client)
 #
 #    end
