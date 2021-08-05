@@ -41,9 +41,9 @@ describe CommandSet do
         @client_server.puts("test3")
         line = @server_accepted.gets.chop
         command = line.split(" ")
-        
+
         command_get = CommandSet.new(@store ,command, @server_accepted)       
-        
+
         message = @client_server.gets.chop
 
         value = @store.get("test3")
@@ -52,6 +52,7 @@ describe CommandSet do
         expect(value.flags).to eq 1
         expect(value.length).to eq 5
         expect(value.cas).to eq 1
+
     end
 
     it "should return nothing when set a new key and use the parameter noreply" do 
@@ -134,6 +135,19 @@ describe CommandSet do
         expect(message).to eq "CLIENT_ERROR Hubo un problema con los parametros del comando."
     end
 
+    it "should return CLIENT_ERROR when the command has more than five parameters" do 
+        
+        @client_server.puts("set test 1 0 noreply 1")
+        line = @server_accepted.gets.chop
+        command = line.split(" ")
+
+        command_get = CommandSet.new(@store ,command, @server_accepted)
+        
+        message = @client_server.gets.chop
+
+        expect(message).to eq "CLIENT_ERROR Hubo un problema con los parametros del comando."
+    end
+
     it "should return CLIENT_ERROR when the key has more than 250 characters" do 
         key = rand(36**251).to_s(36)
         @client_server.puts("set #{key} 1 0 5")
@@ -174,9 +188,22 @@ describe CommandSet do
         expect(message).to eq "CLIENT_ERROR Hubo un problema con los parametros del comando."
     end
 
-    it "should return CLIENT_ERROR when the expiry value is greater than 2592001" do 
+    it "should return CLIENT_ERROR when the expiry value is greater than 2592000" do 
         
-        @client_server.puts("set test 65536 0 1")
+        @client_server.puts("set test 0 2592001 1")
+        line = @server_accepted.gets.chop
+        command = line.split(" ")
+
+        command_get = CommandSet.new(@store ,command, @server_accepted)
+        
+        message = @client_server.gets.chop
+
+        expect(message).to eq "CLIENT_ERROR Hubo un problema con los parametros del comando."
+    end
+
+    it "should return CLIENT_ERROR when noreply parameter is incorrect" do 
+        
+        @client_server.puts("ser test 0 2592001 1 norep")
         line = @server_accepted.gets.chop
         command = line.split(" ")
 

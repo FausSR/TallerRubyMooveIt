@@ -140,6 +140,19 @@ describe CommandCas do
         expect(message).to eq "CLIENT_ERROR Hubo un problema con los parametros del comando."
     end
 
+    it "should return CLIENT_ERROR when the command has more than six parameters" do 
+        
+        @client_server.puts("set test 1 0 noreply 1 noreply 1")
+        line = @server_accepted.gets.chop
+        command = line.split(" ")
+
+        command_get = CommandCas.new(@store ,command, @server_accepted)
+        
+        message = @client_server.gets.chop
+
+        expect(message).to eq "CLIENT_ERROR Hubo un problema con los parametros del comando."
+    end
+
     it "should return CLIENT_ERROR when the key has more than 250 characters" do 
         key = rand(36**251).to_s(36)
         @client_server.puts("cas #{key} 1 0 5 1")
@@ -184,7 +197,7 @@ describe CommandCas do
 
     it "should return CLIENT_ERROR when the flag value is greater than 65535" do 
         
-        @client_server.puts("cas test 65536 0 1 1")
+        @client_server.puts("cas test 65536 0 1 1 1")
         line = @server_accepted.gets.chop
         command = line.split(" ")
 
@@ -195,9 +208,9 @@ describe CommandCas do
         expect(message).to eq "CLIENT_ERROR Hubo un problema con los parametros del comando."
     end
 
-    it "should return CLIENT_ERROR when the expiry value is greater than 2592001" do 
+    it "should return CLIENT_ERROR when the expiry value is greater than 2592000" do 
         
-        @client_server.puts("cas test 65536 0 1")
+        @client_server.puts("cas test 0 2592001 1 1")
         line = @server_accepted.gets.chop
         command = line.split(" ")
 
@@ -206,6 +219,33 @@ describe CommandCas do
         message = @client_server.gets.chop
 
         expect(message).to eq "CLIENT_ERROR Hubo un problema con los parametros del comando."
+    end
+
+    it "should return CLIENT_ERROR when noreply parameter is incorrect" do 
+        
+        @client_server.puts("cas test 0 2592001 1 1 norep")
+        line = @server_accepted.gets.chop
+        command = line.split(" ")
+
+        command_get = CommandCas.new(@store ,command, @server_accepted)
+        
+        message = @client_server.gets.chop
+
+        expect(message).to eq "CLIENT_ERROR Hubo un problema con los parametros del comando."
+    end
+
+    
+    it "should return EXIST when cas a existant key with a different cas unique" do 
+        
+        @client_server.puts("cas test1 0 0 1 1")
+        line = @server_accepted.gets.chop
+        command = line.split(" ")
+
+        command_get = CommandCas.new(@store ,command, @server_accepted)
+        
+        message = @client_server.gets.chop
+
+        expect(message).to eq "EXISTS"
     end
 
     after(:each) do

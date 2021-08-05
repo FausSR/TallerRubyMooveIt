@@ -13,10 +13,10 @@ class StorageCommand
 
 
     def storage_commands_lenght()
-        if (![@length-1,@length].include?(@command.length)) || (!storage_length_values())
-            client_error()
-        else
+        if  storage_length_values()
             read_command()
+        else
+            client_error()
         end
     rescue ArgumentError
         client_error()
@@ -24,6 +24,7 @@ class StorageCommand
 
 
     def storage_length_values()
+        return false if (![@length-1,@length].include?(@command.length))
 
         (Integer @command[4]) if @length.eql? 7
 
@@ -34,8 +35,7 @@ class StorageCommand
 
 
     def noreply (response)
-
-        if((@command.length != @length) && (!@command.last.eql?("noreply"))) || (!response.eql?("STORED\r\n"))
+        if (@command.length != @length) || (!response.eql?("STORED\r\n"))
             @client.puts(response)
         end
     end

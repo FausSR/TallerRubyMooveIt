@@ -12,10 +12,10 @@ class RetrievalCommand
 
 
     def retrieval_commands_lenght 
-        if (@command.length <= 1) || !retrieval_length_values()
-            client_error()
-        else
+        if  retrieval_length_values()
             read_command()
+        else
+            client_error()
         end
     rescue ArgumentError => error
         client_error()
@@ -23,9 +23,11 @@ class RetrievalCommand
 
 
     def retrieval_length_values
+        return false if (@command.length <= 1)
+        
         return @command.all? {|x| x.length <=250}
     end
-    
+
 
     def server_error()
         raise ServerException.new
