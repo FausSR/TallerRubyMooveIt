@@ -1,0 +1,80 @@
+set test 0 0 4  
+test
+--STORED
+
+get test
+--VALUES test 0 4
+--test
+--END
+
+gets test
+--VALUES test 0 12 1
+--test
+--END
+
+cas test 0 0 12 1  
+updated_test
+--STORED
+
+append test 0 0 5   
+right
+--STORED
+
+gets test
+--VALUES test 0 17 3
+--updated_testright
+
+prepend test 0 0 4  
+left
+--STORED
+
+gets test
+--VALUES test 0 21 4
+--leftupdated_testright
+--END
+
+cas test 0 0 12 2   
+--EXISTS
+
+cas test 0 0 8 4
+new_test
+--STORED
+
+gets test
+--VALUES test 0 8 5
+--new_test
+--END
+
+add test1 0 0 5  
+test1
+--STORED
+
+get test1
+--VALUES test1 0 5
+--test1
+--END
+
+replace test1 0 0 14  
+replaced_test1
+
+get test1
+
+gets test
+
+set test3 0 60 5  
+test3
+
+cas test3 0 0 12 1  
+updated_test
+
+append test3 0 0 5 
+right
+
+prepend test3 0 0 4
+left
+
+add test4 0 0 5
+test4
+
+replace test4 0 0 14
+replaced_test4
