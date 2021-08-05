@@ -7,7 +7,6 @@ class Command
     def initialize
         @client
         @command
-        @timeout_data_block = $ENV["TIMEOUT_DATA_BLOCK"]
     end
 
     def storage_commands_lenght
@@ -79,7 +78,7 @@ class Command
 
 
     def client_error()
-        raise ClientException.new
+        @client.puts("CLIENT_ERROR Hubo un problema con los parametros del comando.\r\n")
     end
 
 

@@ -50,8 +50,8 @@ class ConnectionLogic
 
     rescue NameError
         @client.puts("ERROR\r\n")
-    rescue ClientException => error
-        @client.puts("CLIENT_ERROR #{error.message}\r\n")
+    #rescue ClientException => error
+    #    @client.puts("CLIENT_ERROR #{error.message}\r\n")
     end
 
 end
