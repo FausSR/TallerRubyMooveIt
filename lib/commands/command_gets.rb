@@ -14,8 +14,8 @@ class CommandGets < Command
  
     def read_command
 
-        command.drop(1)
-        command.each { |key|
+        @command.drop(1)
+        @command.each { |key|
             create_get_response(key)
         }
         @client.puts("END\r\n")
@@ -38,9 +38,6 @@ class CommandGets < Command
             @client.puts(response)
             @client.puts(value)
         end
-
-    rescue Exception => error
-        server_error(error.class)
     end
 
 end

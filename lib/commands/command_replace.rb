@@ -34,9 +34,6 @@ class CommandReplace < Command
         end
 
         noreply(response)
-
-    rescue Exception => error
-        server_error(error.class)
     end
 
 end

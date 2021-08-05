@@ -8,7 +8,7 @@ class SocketServer
     end
 
     def start_server
-        server = TCPServer.open(@socket_address, @socket_port)
+        server = TCPServer.open(@socket_port)
         loop {                           
             Thread.start(server.accept) do |client|
                 connection = ConnectionLogic.new(client)

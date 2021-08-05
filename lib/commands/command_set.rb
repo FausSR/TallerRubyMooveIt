@@ -16,7 +16,7 @@ class CommandSet < Command
 
         key = @command[1]
         flags = @command[2]
-        expire = @command[7]
+        expire = @command[3]
         puts expire
         bytes = @command[4].to_i
         value = @client.gets.chop[0..(bytes -1)]
@@ -26,9 +26,6 @@ class CommandSet < Command
         response = "STORED\r\n"
 
         noreply(response)
-
-    rescue Exception => error
-        server_error(error.class)
     end
 
 end

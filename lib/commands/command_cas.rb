@@ -8,7 +8,7 @@ class CommandCas < Command
         @command = command
         @client = client
 
-        read_command()
+        cas_storage_commands_lenght()
 
     end
 
@@ -23,20 +23,20 @@ class CommandCas < Command
             flags = @command[2]
             expire = @command[3]
             bytes = @command[4].to_i
-            value = @client.gets.chop
-            cas = hash_value.cas + 1
+            cas = @command[5].to_i
+            if hash_value.cas == cas
+                value = @client.gets.chop
     
-            $store.set(key, value, expire, flags, bytes, cas)
-            response = "STORED\r\n"
-
+                $store.set(key, value, expire, flags, bytes, cas + 1)
+                response = "STORED\r\n"
+            else
+                response = "EXISTS\r\n"
+            end
         else
-            response = "NOT_STORED\r\n"
+            response = "NOT_FOUND\r\n"
         end
 
-        noreply(response)
-
-    rescue Exception => error
-        server_error(error.class)
+        cas_noreply(response)
     end
 
 end

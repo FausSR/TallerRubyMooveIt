@@ -31,11 +31,11 @@ class CustomHashValue
 
   def initialize(value, expiry, flags, length, cas)
     @value = value
-    @expiry = expiry.to_int 
+    @expiry = expiry.to_i 
     @created_time = Time.now 
-    @flags = flags.to_int
-    @length = length.to_int
-    @cas = cas.to_int
+    @flags = flags.to_i
+    @length = length.to_i 
+    @cas = cas.to_i
   end
 
 end

@@ -22,12 +22,10 @@ class CommandGet < Command
     end
 
     def create_get_response(key)
+
         hash_value = $store.get(key)
 
         if !hash_value.nil?
-
-            
-
             ret = []
             value = hash_value.value.to_s + "\r\n"
             ret.push(key)
@@ -39,9 +37,6 @@ class CommandGet < Command
             @client.puts(response)
             @client.puts(value)
         end
-
-    rescue Exception => error
-        server_error(error.class)
     end
 
 end

@@ -1,5 +1,5 @@
 class ServerException < StandardError
-    def initialize(msg="There was a problem with the server.")
+    def initialize(msg="Hubo un problema con el servidor.")
       super
     end
 end
