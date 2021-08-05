@@ -1,14 +1,16 @@
 require 'socket'
 require_relative '../custom_hash'
-require_relative './command'
+require_relative './storage_command'
 
-class CommandSet < Command
+class CommandSet < StorageCommand
 
-    def initialize(command, client)
+    def initialize(store, command, client)
         @command = command
         @client = client
+        @store = store
+        @length = 6
 
-        storage_commands_lenght()
+        storage_commands_lenght
         
     end
 
@@ -17,11 +19,9 @@ class CommandSet < Command
         key = @command[1]
         flags = @command[2]
         expire = @command[3]
-        puts expire
         bytes = @command[4].to_i
         value = @client.gets.chop[0..(bytes -1)]
-        $store.set(key, value, expire, flags, bytes)
-        puts $store.get("algo")
+        @store.set(key, value, expire, flags, bytes)
 
         response = "STORED\r\n"
 

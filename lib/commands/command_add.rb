@@ -1,12 +1,14 @@
 require 'socket'
 require_relative '../custom_hash'
-require_relative './command'
+require_relative './storage_command'
 
-class CommandAdd < Command
+class CommandAdd < StorageCommand
 
-    def initialize(command, client)
+    def initialize(store, command, client)
         @command = command
         @client = client
+        @store = store
+        @length = 6
 
         storage_commands_lenght()
 
@@ -15,7 +17,7 @@ class CommandAdd < Command
     def read_command
 
         key = @command[1]
-        hash_value = $store.get(key)
+        hash_value = @store.get(key)
 
         response = ""
 
@@ -25,7 +27,7 @@ class CommandAdd < Command
             bytes = @command[4].to_i
             value = @client.gets.chop
     
-            $store.set(key, value, expire, flags, bytes)
+            @store.set(key, value, expire, flags, bytes)
 
             response = "STORED\r\n"
         else

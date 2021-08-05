@@ -1,21 +1,23 @@
 require 'socket'
 require_relative '../custom_hash'
-require_relative './command'
+require_relative './storage_command'
 
-class CommandCas < Command
+class CommandCas < StorageCommand
 
-    def initialize(command, client)
+    def initialize(store, command, client)
         @command = command
         @client = client
+        @store = store
+        @length = 7
 
-        cas_storage_commands_lenght()
+        storage_commands_lenght()
 
     end
 
     def read_command
 
         key = @command[1]
-        hash_value = $store.get(key)
+        hash_value = @store.get(key)
 
         response = ""
 
@@ -27,7 +29,7 @@ class CommandCas < Command
             if hash_value.cas == cas
                 value = @client.gets.chop
     
-                $store.set(key, value, expire, flags, bytes, cas + 1)
+                @store.set(key, value, expire, flags, bytes, cas + 1)
                 response = "STORED\r\n"
             else
                 response = "EXISTS\r\n"
@@ -36,7 +38,7 @@ class CommandCas < Command
             response = "NOT_FOUND\r\n"
         end
 
-        cas_noreply(response)
+        noreply(response)
     end
 
 end

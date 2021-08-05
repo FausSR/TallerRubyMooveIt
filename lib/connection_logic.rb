@@ -16,10 +16,11 @@ require_relative './exceptions/client_exception'
 
 class ConnectionLogic
 
-    def initialize(client)
+    def initialize(store, client)
 
         @client = client
         @timeout = $ENV["TIMEOUT"]
+        @store = store
     end
 
     def start_connection
@@ -32,7 +33,6 @@ class ConnectionLogic
             end
             
         }
-
     rescue Timeout::Error
         puts "Connection closed at #{Time.now.ctime}"
         @client.close
@@ -43,10 +43,11 @@ class ConnectionLogic
         @client.close
     end
 
+
     def read_line(line)
         command = line.split(" ")
         class_name = "Command#{command.first.capitalize}"
-        Object.const_get(class_name).new(command, @client)
+        Object.const_get(class_name).new(@store, command, @client)
 
     rescue NameError
         @client.puts("ERROR\r\n")

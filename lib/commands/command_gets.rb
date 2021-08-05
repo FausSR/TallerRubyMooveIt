@@ -1,12 +1,13 @@
 require 'socket'
 require_relative '../custom_hash'
-require_relative './command'
+require_relative './retrieval_command'
 
-class CommandGets < Command
+class CommandGets < RetrievalCommand
 
-    def initialize(command, client)
+    def initialize(store, command, client)
         @command = command
         @client = client
+        @store = store
 
         retrieval_commands_lenght()
         
@@ -23,7 +24,7 @@ class CommandGets < Command
 
     def create_get_response(key)
 
-        hash_value = $store.get(key)
+        hash_value = @store.get(key)
 
         if !hash_value.nil?
             ret = []
