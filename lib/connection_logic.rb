@@ -8,8 +8,6 @@ require_relative './commands/command_replace'
 require_relative './commands/command_cas'
 require_relative './commands/command_append'
 require_relative './commands/command_prepend'
-require_relative './exceptions/server_exception'
-require_relative './exceptions/client_exception'
 
 
 
@@ -49,12 +47,14 @@ class ConnectionLogic
     rescue Timeout::Error
         puts "Connection closed at #{Time.now.ctime}"
         @client.close
-    rescue ServerException, StandardError  => error
+    rescue StandardError  => error
         puts error.message
         puts "Connection closed at #{Time.now.ctime}"
         @client.puts("SERVER_ERROR #{error.message}\r\n")
         @client.close
     end
+
+    private
 
 
     def read_line(line)

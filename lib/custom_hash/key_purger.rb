@@ -6,6 +6,8 @@ class KeyPurger
       @store = store
       purge_keys()    
     end
+
+    private
   
     def purge_keys
       loop{

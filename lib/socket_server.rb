@@ -20,7 +20,7 @@ class SocketServer
         }
     rescue Exception => error
         connections.each do |client|
-            client.puts("SERVER_ERROR #{error.type}\r\n")
+            client.puts("SERVER_ERROR #{error.message}\r\n")
             client.close
         end   
         raise error

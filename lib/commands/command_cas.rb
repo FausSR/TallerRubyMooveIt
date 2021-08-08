@@ -14,6 +14,8 @@ class CommandCas < StorageCommand
 
     end
 
+    private
+
     def read_command
 
         key = @command[1]

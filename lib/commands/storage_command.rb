@@ -1,6 +1,5 @@
 require 'socket'
 require 'timeout'
-require_relative '../exceptions/server_exception'
 require_relative '../exceptions/client_exception'
 
 class StorageCommand
@@ -11,6 +10,7 @@ class StorageCommand
         @length
     end
 
+    private
 
     def storage_commands_lenght()
         if  storage_length_values()
@@ -18,7 +18,7 @@ class StorageCommand
         else
             client_error()
         end
-    rescue ArgumentError
+    rescue ArgumentError, RangeError, TypeError
         client_error()
     end
 
@@ -41,9 +41,9 @@ class StorageCommand
     end
     
 
-    def server_error()
-        raise ServerException.new
-    end
+    #def server_error()
+    #    raise ServerException.new
+    #end
 
 
     def client_error()

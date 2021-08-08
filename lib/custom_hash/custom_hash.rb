@@ -1,9 +1,10 @@
 require_relative 'custom_hash_value'
+require 'Concurrent'
 
 class CustomHash
 
     def initialize
-      @hash = Hash.new
+      @hash = Concurrent::Map.new
     end
 
     def keys

@@ -10,6 +10,8 @@ class RetrievalCommand
         @store
     end
 
+    private
+
 
     def retrieval_commands_lenght 
         if  retrieval_length_values()
@@ -29,9 +31,9 @@ class RetrievalCommand
     end
 
 
-    def server_error()
-        raise ServerException.new
-    end
+    #def server_error()
+    #    raise ServerException.new
+    #end
 
 
     def client_error()
