@@ -1,5 +1,6 @@
 require_relative './lib/socket_server'
-require_relative './lib/custom_hash'
+require_relative './lib/custom_hash/custom_hash'
+require_relative './lib/custom_hash/key_purger'
 require_relative './config/environmental_variables'
 
 env = EnvironmentalVariables.new

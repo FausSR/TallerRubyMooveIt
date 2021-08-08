@@ -1,6 +1,5 @@
 require 'socket'
 require 'timeout'
-require_relative './custom_hash'
 require_relative './commands/command_get'
 require_relative './commands/command_gets'
 require_relative './commands/command_add'
@@ -25,18 +24,32 @@ class ConnectionLogic
 
     def start_connection
         puts "New Connection establish at #{Time.now.ctime}"
+        line = ""
+        while !line.nil?
+            Timeout.timeout(@timeout) do
+                if !(line = @client.gets).nil?
+                    read_line(line.chop)
+                else
+                    line = nil
+                    break
+                end
+            end
+        end
+        puts "Connection closed at #{Time.now.ctime}"
+        @client.close
+=begin
         loop{
             line = ""
             Timeout.timeout(@timeout) do
                 line = @client.gets.chop
                 read_line(line)
             end
-            
         }
+=end        
     rescue Timeout::Error
         puts "Connection closed at #{Time.now.ctime}"
         @client.close
-    rescue ServerException, Exception => error
+    rescue ServerException, StandardError  => error
         puts error.message
         puts "Connection closed at #{Time.now.ctime}"
         @client.puts("SERVER_ERROR #{error.message}\r\n")

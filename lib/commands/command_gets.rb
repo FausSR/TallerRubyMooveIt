@@ -1,5 +1,5 @@
 require 'socket'
-require_relative '../custom_hash'
+require_relative '../custom_hash/custom_hash'
 require_relative './retrieval_command'
 
 class CommandGets < RetrievalCommand

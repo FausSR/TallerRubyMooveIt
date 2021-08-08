@@ -10,13 +10,22 @@ class SocketServer
 
     def start_server
         server = TCPServer.open(@socket_port)
-        loop {                           
+        connections = []
+        loop {              
             Thread.start(server.accept) do |client|
+                connections.push client
                 connection = ConnectionLogic.new(@store, client)
-                connection.start_connection  
+                connection.start_connection 
             end
         }
+    rescue Exception => error
+        connections.each do |client|
+            client.puts("SERVER_ERROR #{error.type}\r\n")
+            client.close
+        end   
+        raise error
     end
+    
 
 end
 
