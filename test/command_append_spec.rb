@@ -1,6 +1,6 @@
 require 'rspec'
 require 'socket'
-require './lib/custom_hash'
+require './lib/custom_hash/custom_hash'
 require './lib/commands/command_append'
 
 describe CommandAppend do 

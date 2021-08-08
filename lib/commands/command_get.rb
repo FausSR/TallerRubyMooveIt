@@ -1,5 +1,6 @@
 require 'socket'
-require_relative '../custom_hash'
+require_relative '../custom_hash/custom_hash'
+require_relative '../custom_hash/custom_hash_value'
 require_relative './retrieval_command'
 
 class CommandGet < RetrievalCommand
@@ -12,6 +13,8 @@ class CommandGet < RetrievalCommand
         retrieval_commands_lenght()
 
     end
+
+    private
  
     def read_command
 

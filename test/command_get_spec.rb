@@ -1,6 +1,6 @@
 require 'rspec'
 require 'socket'
-require './lib/custom_hash'
+require './lib/custom_hash/custom_hash'
 require './lib/commands/command_get'
 
 describe CommandGet do 
@@ -91,7 +91,7 @@ describe CommandGet do
 
     it "should return CLIENT_ERROR when the key has more than 250 characters" do 
         key = rand(36**251).to_s(36)
-        @client_server.puts("gets #{key}")
+        @client_server.puts("get #{key}")
         line = @server_accepted.gets.chop
         command = line.split(" ")
 
@@ -104,7 +104,7 @@ describe CommandGet do
 
     it "should return END when the key has 250 characters but the key doesn't exists" do 
         key = rand(36**250).to_s(36)
-        @client_server.puts("gets #{key}")
+        @client_server.puts("get #{key}")
         line = @server_accepted.gets.chop
         command = line.split(" ")
 
@@ -118,7 +118,7 @@ describe CommandGet do
     it "should return the value of the key when the key has 250" do 
         key = rand(36**250).to_s(36)
         @store.set("#{key}", 'test', 0, 1, 4, 1)
-        @client_server.puts("gets #{key}")
+        @client_server.puts("get #{key}")
         line = @server_accepted.gets.chop
         command = line.split(" ")
 

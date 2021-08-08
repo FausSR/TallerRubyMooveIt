@@ -1,5 +1,5 @@
 require 'socket'
-require_relative '../custom_hash'
+require_relative '../custom_hash/custom_hash'
 require_relative './storage_command'
 
 class CommandAppend < StorageCommand
@@ -13,6 +13,8 @@ class CommandAppend < StorageCommand
         storage_commands_lenght()
 
     end
+
+    private
 
     def read_command
 
