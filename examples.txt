@@ -56,25 +56,71 @@ get test1
 
 replace test1 0 0 14  
 replaced_test1
+--STORED
 
-get test1
+gets test1
+--VALUES test1 0 14 2
+--replaced_test1
+--END
 
 gets test
+--VALUES test 0 8 5
+--new_test
+--END
 
 set test3 0 60 5  
 test3
+--STORED
 
 cas test3 0 0 12 1  
 updated_test
+--STORED
 
 append test3 0 0 5 
 right
+--STORED
+
+gets test test1 test3
+--VALUES test 0 8 5
+--new_test
+--VALUES test1 0 14 2
+--replaced_test1
+--VALUES test3 0 17 3
+--updated_testright
+--END
 
 prepend test3 0 0 4
 left
+--STORED
 
-add test4 0 0 5
+geeeet test
+--ERROR
+
+add test4 0 0 5 6 2 3
+--CLIENT_ERROR Hubo un problema con los parametros del comando.
+
+gee
+--ERROR
+
+add test4 0 0 5 noreply
 test4
+--
 
 replace test4 0 0 14
 replaced_test4
+--STORED
+
+replace test4 0 0 14 nor
+--CLIENT_ERROR Hubo un problema con los parametros del comando.
+
+get test99
+--END
+
+cas test99 0 0 1 1
+--NOT_FOUND
+
+replace test99 0 0 1 
+--NOT_STORED
+
+cas test 0 0 0 1
+--EXISTS
