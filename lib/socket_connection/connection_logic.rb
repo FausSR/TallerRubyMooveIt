@@ -9,12 +9,9 @@ require_relative '../commands/command_cas'
 require_relative '../commands/command_append'
 require_relative '../commands/command_prepend'
 
-
-
 class ConnectionLogic
 
     def initialize(store, client)
-
         @client = client
         @timeout = $ENV["TIMEOUT"]
         @store = store
@@ -34,16 +31,7 @@ class ConnectionLogic
             end
         end
         puts "Connection closed at #{Time.now.ctime}"
-        @client.close
-=begin
-        loop{
-            line = ""
-            Timeout.timeout(@timeout) do
-                line = @client.gets.chop
-                read_line(line)
-            end
-        }
-=end        
+        @client.close     
     rescue Timeout::Error
         puts "Connection closed at #{Time.now.ctime}"
         @client.close
@@ -56,16 +44,12 @@ class ConnectionLogic
 
     private
 
-
     def read_line(line)
         command = line.split(" ")
         class_name = "Command#{command.first.capitalize}"
         Object.const_get(class_name).new(@store, command, @client)
-
     rescue NameError
         @client.puts("ERROR\r\n")
-    #rescue ClientException => error
-    #    @client.puts("CLIENT_ERROR #{error.message}\r\n")
     end
 
 end

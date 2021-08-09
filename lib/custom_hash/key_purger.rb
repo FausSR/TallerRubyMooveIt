@@ -3,22 +3,22 @@ require_relative 'custom_hash'
 class KeyPurger
 
     def initialize(store)
-      @store = store
-      purge_keys()    
+        @store = store
+        purge_keys()    
     end
 
     private
-  
+
     def purge_keys
-      loop{
-        sleep($ENV["KEYPURGER"])
-        @store.keys.each{ |x| 
-          value = @store.get(x)
-          if value.nil?
-            @store.delete(x)
-          end
-        }
-      }
+        loop do
+            sleep($ENV["KEYPURGER"])
+            @store.keys.each do |x| 
+                value = @store.get(x)
+                if value.nil?
+                    @store.delete(x)
+                end
+            end
+        end
     end
   
-  end
+end
