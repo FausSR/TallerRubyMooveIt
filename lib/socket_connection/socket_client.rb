@@ -16,11 +16,10 @@ class SocketClient
             end
         end
 
-        while !(line = gets).eql?("EXIT")
-            s.print(line)     
+        loop do
+            line = gets
+            s.print(line)   
         end
-
-        s.close
     end
 
 end

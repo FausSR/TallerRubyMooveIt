@@ -1,13 +1,13 @@
 require 'socket'
 require 'timeout'
-require_relative './commands/command_get'
-require_relative './commands/command_gets'
-require_relative './commands/command_add'
-require_relative './commands/command_set'
-require_relative './commands/command_replace'
-require_relative './commands/command_cas'
-require_relative './commands/command_append'
-require_relative './commands/command_prepend'
+require_relative '../commands/command_get'
+require_relative '../commands/command_gets'
+require_relative '../commands/command_add'
+require_relative '../commands/command_set'
+require_relative '../commands/command_replace'
+require_relative '../commands/command_cas'
+require_relative '../commands/command_append'
+require_relative '../commands/command_prepend'
 
 
 

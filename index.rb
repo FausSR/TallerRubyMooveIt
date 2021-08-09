@@ -1,4 +1,4 @@
-require_relative './lib/socket_server'
+require_relative './lib/socket_connection/socket_server'
 require_relative './lib/custom_hash/custom_hash'
 require_relative './lib/custom_hash/custom_hash_value'
 require_relative './lib/custom_hash/key_purger'
