@@ -7,6 +7,15 @@ require_relative './config/environmental_variables'
 env = EnvironmentalVariables.new
 env.define_variables
 store = CustomHash.new
-Thread.new { KeyPurger.new(store) }
+
+key_purger = KeyPurger.new(store)
+
+Thread.start {
+    loop do
+        key_purger.purge_keys()
+        sleep($ENV["KEYPURGER"])
+    end
+}
+
 socket = SocketServer.new(store, $ENV['HOSTNAME'], $ENV['PORT'])
 socket.start_server

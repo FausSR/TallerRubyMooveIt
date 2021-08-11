@@ -6,6 +6,7 @@ require './lib/socket_connection/connection_logic'
 describe CommandAdd do 
 
     before(:each) do
+        allow($stdout).to receive(:puts)
         socket_address = 'localhost'
         socket_port = 2000
         @server = TCPServer.open(socket_port)
