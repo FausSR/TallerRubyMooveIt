@@ -30,3 +30,10 @@ replace test1 0 0 13  |  replaced_test
 
 To run all the tests, run "rspec --pattern test/*.rb".
 To test a specific class run the next command "rspec ./test/the_class_you_want_to_test.rb". For example "rspec .test/command_set_spec.rb".
+
+## Examples
+
+There are more examples of commands to run from the client demo in the "Examples.txt" file.
+Those examples contains both, the commands and the response of the server if the commands are execute in the correct order.
+
+
